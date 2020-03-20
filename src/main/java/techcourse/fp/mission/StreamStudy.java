@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class StreamStudy {
@@ -41,7 +42,10 @@ public class StreamStudy {
     }
 
     public static long sumOverThreeAndDouble(List<Integer> numbers) {
-        return numbers.stream().filter(v -> v > 3).mapToInt(v -> v * 2).sum();
+        return numbers.stream()
+                .filter(n -> n > 3)
+                .map(n -> 2 * n)
+                .reduce(0, Integer::sum);
     }
 
     public static void printLongestWordTop100() throws IOException {
@@ -51,6 +55,11 @@ public class StreamStudy {
 
         System.out.println(words);
         System.out.println(words.size());
-        // TODO 이 부분에 구현한다.
+        words.stream()
+                .sorted(Comparator.comparingInt(String::length).reversed())
+                .distinct()
+                .filter(word -> word.length() > 12)
+                .limit(100)
+                .forEach(System.out::println);
     }
 }
